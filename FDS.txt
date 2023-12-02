@@ -1,0 +1,1199 @@
+######QuickSort
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class QuickSort {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter Size Of Array: ");
+        int n = sc.nextInt();
+        int[] array = new int[n];
+        for (int i = 0; i < n; i++) {
+            System.out.print("Enter Element " + i + " : ");
+            array[i] = sc.nextInt();
+        }
+
+        System.out.println("Original Array: " + Arrays.toString(array));
+
+        quickSort(array, 0, array.length - 1);
+
+        System.out.println("Sorted Array: " + Arrays.toString(array));
+    }
+
+    public static void quickSort(int[] array, int low, int high) {
+        if (low < high) {
+            int partitionIndex = partition(array, low, high);
+
+            System.out.println("Pass: " + (low + 1) + " - " + (high + 1) + " " + Arrays.toString(array));
+
+            quickSort(array, low, partitionIndex - 1);
+            quickSort(array, partitionIndex + 1, high);
+        }
+    }
+
+    public static int partition(int[] array, int low, int high) {
+        int pivot = array[high];
+        int i = (low - 1);
+
+        for (int j = low; j < high; j++) {
+            if (array[j] <= pivot) {
+                i++;
+
+                int temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
+            }
+        }
+
+        int temp = array[i + 1];
+        array[i + 1] = array[high];
+        array[high] = temp;
+
+        return i + 1;
+    }
+}
+########BubbleSort
+import java.util.*;
+
+public class BubbleSort {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter Size Of Array: ");
+        int n = sc.nextInt();
+        int[] array = new int[n];
+        for (int i = 0; i < n; i++) {
+            System.out.print("Enter Element " + i + " : ");
+            array[i] = sc.nextInt();
+        }
+
+        System.out.println("Original Array: ");
+        displayArray(array);
+
+        bubbleSort(array);
+
+        System.out.println("\nSorted Array: ");
+        displayArray(array);
+    }
+
+    public static void bubbleSort(int[] array) {
+        int n = array.length;
+
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (array[j] > array[j + 1]) {
+
+                    int temp = array[j];
+                    array[j] = array[j + 1];
+                    array[j + 1] = temp;
+                }
+            }
+
+            System.out.println("Pass " + (i + 1) + ": ");
+            displayArray(array);
+        }
+    }
+
+    public static void displayArray(int[] array) {
+        for (int value : array) {
+            System.out.print(value + " ");
+        }
+        System.out.println();
+    }
+}
+######Pizza
+import java.util.Scanner;
+
+class CircularQueue {
+    private int front, rear;
+    private int maxSize;
+    private String[] orders;
+
+    public CircularQueue(int size) {
+        maxSize = size;
+        orders = new String[maxSize];
+        front = -1;
+        rear = -1;
+    }
+
+    public boolean isFull() {
+        return (front == 0 && rear == maxSize - 1) || (front == rear + 1);
+    }
+
+    public boolean isEmpty() {
+        return front == -1;
+    }
+
+    public void enqueue(String order) {
+        if (isFull()) {
+            System.out.println("Sorry, the order queue is full. Cannot accept more orders.");
+        } else {
+            if (front == -1) {
+                front = 0;
+            }
+            rear = (rear + 1) % maxSize;
+            orders[rear] = order;
+            System.out.println("Order placed successfully: " + order);
+        }
+    }
+
+    public void dequeue() {
+        if (isEmpty()) {
+            System.out.println("No orders to serve.");
+        } else {
+            System.out.println("Order served: " + orders[front]);
+            if (front == rear) {
+                front = -1;
+                rear = -1;
+            } else {
+                front = (front + 1) % maxSize;
+            }
+        }
+    }
+
+    public void display() {
+        if (isEmpty()) {
+            System.out.println("No orders to display.");
+        } else {
+            System.out.println("Orders in the queue:");
+            int i = front;
+            do {
+                System.out.println(orders[i]);
+                i = (i + 1) % maxSize;
+            } while (i != (rear + 1) % maxSize);
+        }
+    }
+}
+
+class PizzaParlor {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the maximum number of orders: ");
+        int maxOrders = scanner.nextInt();
+
+        CircularQueue orderQueue = new CircularQueue(maxOrders);
+
+        while (true) {
+            System.out.println("\nPizza Parlor System Menu:");
+            System.out.println("1. Place an Order");
+            System.out.println("2. Serve an Order");
+            System.out.println("3. Display Orders");
+            System.out.println("4. Exit");
+
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    scanner.nextLine();
+                    System.out.print("Enter the order: ");
+                    String order = scanner.nextLine();
+                    orderQueue.enqueue(order);
+
+                    break;
+                case 2:
+                    orderQueue.dequeue();
+                    break;
+                case 3:
+                    orderQueue.display();
+                    break;
+                case 4:
+                    System.out.println("Exiting the Pizza Parlor System. Thank you!");
+                    System.exit(0);
+                default:
+                    System.out.println("Invalid choice. Please enter a valid option.");
+            }
+        }
+
+    }
+}
+#####QueueLL
+
+import java.util.Scanner;
+
+class Node {
+    int data;
+    Node next;
+
+    public Node(int data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+
+class Queue {
+    private Node front, rear;
+
+    public Queue() {
+        this.front = this.rear = null;
+    }
+
+    public void enqueue(int data) {
+        Node newNode = new Node(data);
+
+        if (isEmpty()) {
+            front = rear = newNode;
+        } else {
+            rear.next = newNode;
+            rear = newNode;
+        }
+
+        System.out.println(data + " enqueued to the queue.");
+    }
+
+    public void dequeue() {
+        if (isEmpty()) {
+            System.out.println("Queue is empty. Cannot dequeue.");
+        } else {
+            int dequeuedData = front.data;
+            front = front.next;
+
+            if (front == null) {
+                rear = null;
+            }
+
+            System.out.println(dequeuedData + " dequeued from the queue.");
+        }
+    }
+
+    public boolean isEmpty() {
+        return front == null;
+    }
+
+    public void display() {
+        if (isEmpty()) {
+            System.out.println("Queue is empty.");
+        } else {
+            System.out.println("Current state of the queue:");
+            Node current = front;
+            while (current != null) {
+                System.out.print(current.data + " ");
+                current = current.next;
+            }
+            System.out.println();
+        }
+    }
+}
+
+class QueueLL {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Queue queue = new Queue();
+
+        while (true) {
+            System.out.println("\nQueue Operation Menu:");
+            System.out.println("1. Enqueue");
+            System.out.println("2. Dequeue");
+            System.out.println("3. Display");
+            System.out.println("4. Exit");
+
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter the element to enqueue: ");
+                    int enqueueData = scanner.nextInt();
+                    queue.enqueue(enqueueData);
+                    queue.display();
+                    break;
+                case 2:
+                    queue.dequeue();
+                    queue.display();
+                    break;
+                case 3:
+                    queue.display();
+                    break;
+                case 4:
+                    System.out.println("Exiting the program. Thank you!");
+                    System.exit(0);
+                default:
+                    System.out.println("Invalid choice. Please enter a valid option.");
+            }
+        }
+    }
+}
+####QueueArray
+
+import java.util.Scanner;
+
+class Queue {
+    private static final int MAX_SIZE = 5;
+    private int[] queueArray;
+    private int front, rear;
+
+    public Queue() {
+        this.queueArray = new int[MAX_SIZE];
+        this.front = -1;
+        this.rear = -1;
+    }
+
+    public void enqueue(int data) {
+        if (rear == MAX_SIZE - 1) {
+            System.out.println("Queue is full. Cannot enqueue.");
+        } else {
+            if (front == -1) {
+                front = 0;
+            }
+            rear++;
+            queueArray[rear] = data;
+            System.out.println(data + " enqueued to the queue.");
+        }
+    }
+
+    public void dequeue() {
+        if (isEmpty()) {
+            System.out.println("Queue is empty. Cannot dequeue.");
+        } else {
+            int dequeuedData = queueArray[front];
+            if (front == rear) {
+                front = -1;
+                rear = -1;
+            } else {
+                front++;
+            }
+            System.out.println(dequeuedData + " dequeued from the queue.");
+        }
+    }
+
+    public boolean isEmpty() {
+        return front == -1;
+    }
+
+    public void display() {
+        if (isEmpty()) {
+            System.out.println("Queue is empty.");
+        } else {
+            System.out.println("Current state of the queue:");
+            for (int i = front; i <= rear; i++) {
+                System.out.print(queueArray[i] + " ");
+            }
+            System.out.println();
+        }
+    }
+}
+
+public class QueueUsingArrayList {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Queue queue = new Queue();
+
+        while (true) {
+            System.out.println("\nQueue Operation Menu:");
+            System.out.println("1. Enqueue");
+            System.out.println("2. Dequeue");
+            System.out.println("3. Display");
+            System.out.println("4. Exit");
+
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter the element to enqueue: ");
+                    int enqueueData = scanner.nextInt();
+                    queue.enqueue(enqueueData);
+                    queue.display();
+                    break;
+                case 2:
+                    queue.dequeue();
+                    queue.display();
+                    break;
+                case 3:
+                    queue.display();
+                    break;
+                case 4:
+                    System.out.println("Exiting the program. Thank you!");
+                    System.exit(0);
+                default:
+                    System.out.println("Invalid choice. Please enter a valid option.");
+            }
+        }
+    }
+}
+
+####StackLL
+
+
+import java.util.Scanner;
+
+class Node {
+    int data;
+    Node next;
+
+    public Node(int data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+
+class Stack {
+    private Node top;
+
+    public Stack() {
+        this.top = null;
+    }
+
+    public void push(int data) {
+        Node newNode = new Node(data);
+        newNode.next = top;
+        top = newNode;
+        System.out.println(data + " pushed onto the stack.");
+    }
+
+    public void pop() {
+        if (isEmpty()) {
+            System.out.println("Stack is empty. Cannot pop.");
+        } else {
+            int poppedData = top.data;
+            top = top.next;
+            System.out.println(poppedData + " popped from the stack.");
+        }
+    }
+
+    public boolean isEmpty() {
+        return top == null;
+    }
+
+    public void display() {
+        if (isEmpty()) {
+            System.out.println("Stack is empty.");
+        } else {
+            System.out.println("Current state of the stack:");
+            Node current = top;
+            while (current != null) {
+                System.out.print(current.data + " ");
+                current = current.next;
+            }
+            System.out.println();
+        }
+    }
+}
+
+public class StackUsingLinkedList {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Stack stack = new Stack();
+
+        while (true) {
+            System.out.println("\nStack Operation Menu:");
+            System.out.println("1. Push");
+            System.out.println("2. Pop");
+            System.out.println("3. Display");
+            System.out.println("4. Exit");
+
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter the element to push: ");
+                    int pushData = scanner.nextInt();
+                    stack.push(pushData);
+                    stack.display();
+                    break;
+                case 2:
+                    stack.pop();
+                    stack.display();
+                    break;
+                case 3:
+                    stack.display();
+                    break;
+                case 4:
+                    System.out.println("Exiting the program. Thank you!");
+                    System.exit(0);
+                default:
+                    System.out.println("Invalid choice. Please enter a valid option.");
+            }
+        }
+    }
+}
+###StackUsingArray
+
+import java.util.Scanner;
+
+class Stack {
+    private static final int MAX_SIZE = 5;
+    private int[] stackArray;
+    private int top;
+
+    public Stack() {
+        this.stackArray = new int[MAX_SIZE];
+        this.top = -1;
+    }
+
+    public void push(int data) {
+        if (isFull()) {
+            System.out.println("Stack is full. Cannot push.");
+        } else {
+            top++;
+            stackArray[top] = data;
+            System.out.println(data + " pushed onto the stack.");
+        }
+    }
+
+    public void pop() {
+        if (isEmpty()) {
+            System.out.println("Stack is empty. Cannot pop.");
+        } else {
+            int poppedData = stackArray[top];
+            top--;
+            System.out.println(poppedData + " popped from the stack.");
+        }
+    }
+
+    public boolean isEmpty() {
+        return top == -1;
+    }
+
+    public boolean isFull() {
+        return top == MAX_SIZE - 1;
+    }
+
+    public void display() {
+        if (isEmpty()) {
+            System.out.println("Stack is empty.");
+        } else {
+            System.out.println("Current state of the stack:");
+            for (int i = top; i >= 0; i--) {
+                System.out.print(stackArray[i] + " ");
+            }
+            System.out.println();
+        }
+    }
+}
+
+class StackUsingArrayList {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Stack stack = new Stack();
+
+        while (true) {
+            System.out.println("\nStack Operation Menu:");
+            System.out.println("1. Push");
+            System.out.println("2. Pop");
+            System.out.println("3. Display");
+            System.out.println("4. Exit");
+
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter the element to push: ");
+                    int pushData = scanner.nextInt();
+                    stack.push(pushData);
+                    stack.display();
+                    break;
+                case 2:
+                    stack.pop();
+                    stack.display();
+                    break;
+                case 3:
+                    stack.display();
+                    break;
+                case 4:
+                    System.out.println("Exiting the program. Thank you!");
+                    System.exit(0);
+                default:
+                    System.out.println("Invalid choice. Please enter a valid option.");
+            }
+        }
+    }
+}
+###EmployeeSLL
+
+
+import java.util.Scanner;
+
+class Employee {
+    int empId;
+    String empName;
+    double empSalary;
+    Employee next;
+
+    public Employee(int empId, String empName, double empSalary) {
+        this.empId = empId;
+        this.empName = empName;
+        this.empSalary = empSalary;
+        this.next = null;
+    }
+}
+
+class EmployeeLinkedList {
+    private Employee head;
+
+    public EmployeeLinkedList() {
+        this.head = null;
+    }
+
+    public void insert(Employee newEmployee) {
+        if (head == null) {
+            head = newEmployee;
+            System.out.println("Employee inserted successfully.");
+        } else {
+            Employee current = head;
+            while (current.next != null) {
+                current = current.next;
+            }
+            current.next = newEmployee;
+            System.out.println("Employee inserted successfully.");
+        }
+    }
+
+    public void delete(int empId) {
+        if (head == null) {
+            System.out.println("Employee list is empty. Cannot delete.");
+        } else if (head.empId == empId) {
+            head = head.next;
+            System.out.println("Employee with ID " + empId + " deleted successfully.");
+        } else {
+            Employee current = head;
+            Employee prev = null;
+            while (current != null && current.empId != empId) {
+                prev = current;
+                current = current.next;
+            }
+            if (current == null) {
+                System.out.println("Employee with ID " + empId + " not found.");
+            } else {
+                prev.next = current.next;
+                System.out.println("Employee with ID " + empId + " deleted successfully.");
+            }
+        }
+    }
+
+    public void search(int empId) {
+        Employee current = head;
+        while (current != null && current.empId != empId) {
+            current = current.next;
+        }
+        if (current == null) {
+            System.out.println("Employee with ID " + empId + " not found.");
+        } else {
+            System.out.println("Employee found - ID: " + current.empId + ", Name: " + current.empName + ", Salary: "
+                    + current.empSalary);
+        }
+    }
+
+    public void modify(int empId, String newName, double newSalary) {
+        Employee current = head;
+        while (current != null && current.empId != empId) {
+            current = current.next;
+        }
+        if (current == null) {
+            System.out.println("Employee with ID " + empId + " not found.");
+        } else {
+            current.empName = newName;
+            current.empSalary = newSalary;
+            System.out.println("Employee with ID " + empId + " modified successfully.");
+        }
+    }
+
+    public void display() {
+        if (head == null) {
+            System.out.println("Employee list is empty.");
+        } else {
+            System.out.println("Employee list:");
+            Employee current = head;
+            while (current != null) {
+                System.out.println(
+                        "ID: " + current.empId + ", Name: " + current.empName + ", Salary: " + current.empSalary);
+                current = current.next;
+            }
+        }
+    }
+}
+
+public class EmployeeLL {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        EmployeeLinkedList employeeList = new EmployeeLinkedList();
+
+        while (true) {
+            System.out.println("\nEmployee Management Menu:");
+            System.out.println("1. Insert Employee");
+            System.out.println("2. Delete Employee");
+            System.out.println("3. Search Employee");
+            System.out.println("4. Modify Employee");
+            System.out.println("5. Display Employees");
+            System.out.println("6. Exit");
+
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter Employee ID: ");
+                    int empId = scanner.nextInt();
+                    scanner.nextLine(); // consume the newline character
+                    System.out.print("Enter Employee Name: ");
+                    String empName = scanner.nextLine();
+                    System.out.print("Enter Employee Salary: ");
+                    double empSalary = scanner.nextDouble();
+                    Employee newEmployee = new Employee(empId, empName, empSalary);
+                    employeeList.insert(newEmployee);
+                    break;
+                case 2:
+                    System.out.print("Enter Employee ID to delete: ");
+                    int deleteId = scanner.nextInt();
+                    employeeList.delete(deleteId);
+                    break;
+                case 3:
+                    System.out.print("Enter Employee ID to search: ");
+                    int searchId = scanner.nextInt();
+                    employeeList.search(searchId);
+                    break;
+                case 4:
+                    System.out.print("Enter Employee ID to modify: ");
+                    int modifyId = scanner.nextInt();
+                    scanner.nextLine(); // consume the newline character
+                    System.out.print("Enter new Employee Name: ");
+                    String newEmpName = scanner.nextLine();
+                    System.out.print("Enter new Employee Salary: ");
+                    double newEmpSalary = scanner.nextDouble();
+                    employeeList.modify(modifyId, newEmpName, newEmpSalary);
+                    break;
+                case 5:
+                    employeeList.display();
+                    break;
+                case 6:
+                    System.out.println("Exiting the Employee Management System. Thank you!");
+                    System.exit(0);
+                default:
+                    System.out.println("Invalid choice. Please enter a valid option.");
+            }
+        }
+    }
+}
+###StringNoPointer
+
+
+#include <iostream>
+using namespace std;
+int str_len(char str[])
+{
+    int len = 0;
+    while (str[len] != '\0')
+    {
+        len++;
+    }
+    return len;
+}
+void str_copy(char str1[])
+{
+    char str2[100];
+    int i = 0;
+    while (true)
+    {
+        str2[i] = str1[i];
+        if (str2[i] == '\0')
+        {
+            break;
+        }
+        i++;
+    }
+    cout << "Copied string is: " << str2 << endl;
+}
+
+void str_conc(char str1[])
+{
+    char str2[100];
+    cout << "Enter the string to concatinate: ";
+    cin >> str2;
+    int i = str_len(str1);
+    int k = 0;
+    while (true)
+    {
+        str1[i + k] = str2[k];
+        if (str2[k] == '\0')
+        {
+            break;
+        }
+        k++;
+    }
+    cout << "Concatinated string is: " << str1 << endl;
+}
+
+void str_rev(char str[])
+{
+    cout << "Reversed string is: ";
+
+    for (int i = str_len(str) - 1; i >= 0; i--)
+    {
+        cout << str[i];
+    }
+    cout << endl;
+}
+
+bool str_comp(char str1[])
+{
+    char str2[100];
+    cout << "Enter another string to compare with: ";
+    cin >> str2;
+    bool res = true;
+    int i = 0;
+    while (str1[i] != '\0')
+    {
+        if (str1[i] != str2[i])
+        {
+            res = false;
+            break;
+        }
+        i++;
+    }
+    return res;
+}
+int main()
+{
+    char ans = 'y';
+    do
+    {
+        char str[100];
+        int choice;
+        cout << "Enter your string: ";
+        cin >> str;
+        cout << "\n Options:\n1)Length of the string\n2)Copy String\n3)Concatinate string with...\n4)Reverse the string\n5)Compare string with.\n\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice)
+        {
+        case 1:
+            cout << "Length of the string is: " << str_len(str) << endl;
+            break;
+        case 2:
+            str_copy(str);
+            break;
+        case 3:
+            str_conc(str);
+            break;
+        case 4:
+            str_rev(str);
+            break;
+        case 5:
+            if (str_comp(str))
+                cout << "Both strings are same\n";
+            else
+                cout << "Both strings are not same\n";
+        default:
+            break;
+        }
+        cout << "do you want to contiune?(y/n)";
+        cin >> ans;
+    } while (ans == 'y');
+}
+#####StringPointer
+
+#include <iostream>
+#include <cstring>
+using namespace std;
+int str_len(char arr[50])
+{
+    char *ptr = arr;
+    int length = 0;
+    while (*ptr != '\0')
+    {
+        length++;
+        ptr++;
+    }
+    return length;
+}
+
+void str_copy(char arr1[50], int len)
+{
+    char arr2[50];
+    len = str_len(arr1);
+    char *srcptr = arr1;
+    char *desptr = arr2;
+    while (*srcptr != '\0')
+    {
+        *desptr = *srcptr;
+        *srcptr++;
+        *desptr++;
+    }
+    *desptr = '\0';
+    cout << arr2;
+}
+void str_concat(char arr1[50], char arr2[50])
+{
+    char *src1Ptr = arr1;
+    char *src2Ptr = arr2;
+    char result[100];
+    char *destConcatPtr = result;
+    while (*src1Ptr != '\0')
+    {
+        *destConcatPtr = *src1Ptr;
+        src1Ptr++;
+        destConcatPtr++;
+    }
+    while (*src2Ptr != '\0')
+    {
+        *destConcatPtr = *src2Ptr;
+        src2Ptr++;
+        destConcatPtr++;
+    }
+    *destConcatPtr = '\0';
+    cout << result;
+}
+void str_compare(char arr1[50], char arr2[50])
+{
+    char *cmp1Ptr = arr1;
+    char *cmp2Ptr = arr2;
+    while (*cmp1Ptr != '\0' && *cmp2Ptr != '\0')
+    {
+        if (*cmp1Ptr != *cmp2Ptr)
+        {
+
+            break;
+        }
+        cmp1Ptr++;
+        cmp2Ptr++;
+    }
+    if (*cmp1Ptr == *cmp2Ptr)
+    {
+        cout << "Strings are equal." << endl;
+    }
+    else
+    {
+        cout << "Strings are not equal." << endl;
+    }
+}
+void str_reverse(char arr[50])
+{
+    char *startPtr = arr;
+    char *endPtr = arr + str_len(arr) - 1;
+    while (startPtr < endPtr)
+    {
+        // Swap characters pointed to by startPtr and endPtr
+        char temp = *startPtr;
+        *startPtr = *endPtr;
+        *endPtr = temp;
+        startPtr++;
+        endPtr--;
+    }
+    cout << arr;
+}
+int main()
+{
+    cout << "String Operations using Pointers" << endl;
+    char str1[50];
+    char str2[50];
+    char result[100];
+    int length = 0;
+    int choice = 0;
+    while (1)
+    {
+
+        cout << endl
+             << endl
+             << "Select string operation: " << endl;
+        cout << "1.Length" << endl;
+        cout << "2.Copy" << endl;
+        cout << "3.Concatenation" << endl;
+        cout << "4.Compare" << endl;
+        cout << "5.Reverse" << endl;
+        cout << "6.Exit" << endl;
+        cout << "Choose Operation: ";
+        cin >> choice;
+        switch (choice)
+        {
+        case 1:
+            cout << "Enter a string: ";
+            cin >> str1;
+            cout << "Length of input string: " << str_len(str1);
+            break;
+        case 2:
+            cout << "Enter string 1: ";
+            cin >> str1;
+            length = str_len(str1);
+            cout << "String 2: ";
+            str_copy(str1, length);
+            break;
+        case 3:
+            cout << "Enter string 1: ";
+            cin >> str1;
+            cout << "Enter string 2: ";
+            cin >> str2;
+            cout << "Concatenate string 1 and string 2: ";
+            str_concat(str1, str2);
+            break;
+        case 4:
+            cout << "Enter string 1: ";
+            cin >> str1;
+            cout << "Enter string 2: ";
+            cin >> str2;
+
+            str_compare(str1, str2);
+            break;
+        case 5:
+            cout << "Enter a string: ";
+            cin >> str1;
+            cout << "Reversed string: ";
+            str_reverse(str1);
+            break;
+        case 6:
+            exit(0);
+            break;
+        }
+    }
+}
+
+
+####Sparse Matrix
+import java.util.*;
+public class SparseMatrix {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int i = 0;
+        int j = 0;
+        System.out.println("Enter dimension of matrix");
+        System.out.print("No. of rows: ");
+
+        int m = sc.nextInt();
+        System.out.print("No. of columns: ");
+        int n = sc.nextInt();
+        int[][] simple = new int[m][n];
+        // Filling simple matrix
+        for (i = 0; i < m; i++) {
+            for (j = 0; j < n; j++) {
+                System.out.print("Enter element at (" + i + "," +
+
+                    j + ") location: ");
+
+                int p = sc.nextInt();
+                simple[i][j] = p;
+            }
+        }
+        System.out.println("\nSimple matrix: ");
+        for (i = 0; i < m; i++) {
+            for (j = 0; j < n; j++) {
+                System.out.print(simple[i][j] + " ");
+            }
+            System.out.println();
+        }
+        // Filling Sparse matrix
+        int count = 0;
+        for (i = 0; i < m; i++) {
+            for (j = 0; j < n; j++) {
+                if (simple[i][j] != 0) {
+                    count++;
+                }
+            }
+        }
+        int[][] sparse = new int[count + 1][3];
+        // No. of rows, no. of columns, no. of non-zero elements
+        sparse[0][0] = m;
+        sparse[0][1] = n;
+        sparse[0][2] = count;
+        int a = 1;
+        System.out.println("\nSparse matrix: ");
+        for (i = 0; i < m; i++) {
+            for (j = 0; j < n; j++) {
+                if (simple[i][j] != 0) {
+
+                    sparse[a][0] = i;
+                    sparse[a][1] = j;
+                    sparse[a][2] = simple[i][j];
+                    a++;
+                }
+            }
+        }
+        for (i = 0; i < count + 1; i++) {
+            for (j = 0; j < 3; j++) {
+                System.out.print(sparse[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+}
+
+####FastTranspose
+
+import java.util.*;
+
+class FastTranspose {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int count = 0;
+        System.out.print("Rows: ");
+
+        int r = sc.nextInt();
+        System.out.print("Columns: ");
+        int c = sc.nextInt();
+        int[][] matrix = new int[r][c];
+        System.out.println("Enter matrix: ");
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                matrix[i][j] = sc.nextInt();
+                if (matrix[i][j] != 0) {
+                    count++;
+                }
+            }
+        }
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                System.out.print(matrix[i][j] + " ");
+            }
+            System.out.println();
+        }
+        int[][] sparse = new int[count + 1][3];
+        sparse[0][0] = r;
+        sparse[0][1] = c;
+        sparse[0][2] = count;
+        int k = 1;
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                if (matrix[i][j] != 0) {
+                    sparse[k][0] = i;
+                    sparse[k][1] = j;
+                    sparse[k][2] = matrix[i][j];
+                    k++;
+                }
+            }
+        }
+        System.out.println();
+        System.out.println("Sparse matrix: ");
+        for (int i = 0; i < count + 1; i++) {
+            for (int j = 0; j < 3; j++) {
+
+                System.out.print(sparse[i][j] + " ");
+            }
+            System.out.println();
+        }
+        int[] total = new int[c];
+        for (int i = 1; i <= count; i++) {
+            int a = sparse[i][1];
+            total[a]++;
+        }
+        int[] posi = new int[c + 1];
+        posi[0] = 1;
+        for (int i = 1; i <= total.length; i++) {
+            posi[i] = posi[i - 1] + total[i - 1];
+        }
+        int[][] fast = new int[count + 1][3];
+        fast[0][0] = c;
+        fast[0][1] = r;
+        fast[0][2] = count;
+        for (int i = 1; i <= count; i++) {
+            int x = sparse[i][1];
+            int y = posi[x];
+            fast[y][0] = sparse[i][1];
+            fast[y][1] = sparse[i][0];
+            fast[y][2] = sparse[i][2];
+            posi[x]++;
+        }
+        System.out.println();
+        System.out.println("Fast Transpose matrix: ");
+        for (int i = 0; i < count + 1; i++) {
+            for (int j = 0; j < 3; j++) {
+                System.out.print(fast[i][j] + " ");
+            }
+            System.out.println();
+        }
+        sc.close();
+    }
+}
+
+
+
